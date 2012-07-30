@@ -1,5 +1,5 @@
 <% if @project.repository && @project.repository.is_a?(Repository::Git) && Setting.plugin_redmine_git_hosting['gitRepositoriesShowUrl'].to_s != "false" %>
-	<% content_for :header_tags do %>
+	<!--% content_for :header_tags do %-->
 
 		<%= stylesheet_link_tag('git_url_display', :plugin => 'redmine_git_hosting') %>
 		<%= javascript_include_tag('git_url_display', :plugin => 'redmine_git_hosting') %>
@@ -27,10 +27,10 @@
 			       window.onload = setGitUrlOnload;
 			}
 
-			ZeroClipboard.setMoviePath('<%= image_path('ZeroClipboard.swf', :plugin => 'redmine_git_hosting') %>');
+			ZeroClipboard.setMoviePath('<%= GitHostingAssetHelper.plugin_asset_link('ZeroClipboard.swf', :plugin => 'redmine_git_hosting') %>');
 			setZeroClipboardInputSource("git_url_text");
 		</script>
-	<% end %>
+	<!--% end %-->
 
 	<% if (!User.current.anonymous?) || project.repository.extra[:git_http].to_s != "0" || (project.is_public && project.repository.extra[:git_daemon].to_s != "0" ) %>
 		<div class="box">

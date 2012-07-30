@@ -1,5 +1,5 @@
 
-<% content_for :header_tags do %>
+<!--% content_for :header_tags do %-->
 	<%= stylesheet_link_tag('zero_clipboard', :plugin => 'redmine_git_hosting') %>
 	<%= javascript_include_tag('ZeroClipboard', :plugin => 'redmine_git_hosting') %>
 	<%= javascript_include_tag('zero_clipboard_setup', :plugin => 'redmine_git_hosting') %>
@@ -20,7 +20,7 @@
 
 		document.observe("dom:loaded", function() {
                                         
-			ZeroClipboard.setMoviePath('<%= image_path('ZeroClipboard.swf', :plugin => 'redmine_git_hosting') %>');
+			ZeroClipboard.setMoviePath('<%= GitHostingAssetHelper.plugin_asset_link('ZeroClipboard.swf', :plugin => 'redmine_git_hosting') %>');
 			setZeroClipboardInputSource("mirror_pubkey");
 
 
@@ -34,7 +34,7 @@
 		});
 	</script>
 
-<% end %>
+<!--% end %-->
 
 <% labelled_remote_form_for :repository, @repository, :url => { :controller => 'repositories', :action => 'edit', :id => @project } do |f| %>
 	<%= error_messages_for 'repository' %>

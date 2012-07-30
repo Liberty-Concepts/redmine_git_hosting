@@ -215,7 +215,7 @@ module GitHosting
                 	if script_dir[0,1] == "/"
         			@@git_hosting_bin_dir = File.join(script_dir,git_user,SCRIPT_PARENT) + "/"
                         else
-                        	@@git_hosting_bin_dir = Rails.root.join("vendor/plugins/redmine_git_hosting",script_dir,SCRIPT_PARENT).to_s+"/"
+                        	@@git_hosting_bin_dir = Rails.root.join("plugins/redmine_git_hosting",script_dir,SCRIPT_PARENT).to_s+"/"
                         end
                 end
         	if !File.directory?(@@git_hosting_bin_dir)

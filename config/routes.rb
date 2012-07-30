@@ -1,33 +1,23 @@
-def install_redmine_git_hosting_routes(map)
+RedmineApp::Application.routes.draw do
 	# URL for items of type httpServer/XXX.git.  Some versions of rails has problems with multiple regex expressions, so avoid...
   	# Note that 'http_server_subdir' is either empty (default case) or ends in '/'.
-	map.connect ":project_path/*path", 
-  		:prefix => Setting.plugin_redmine_git_hosting['httpServerSubdir'], :project_path => /([^\/]+\/)*?[^\/]+\.git/, :controller => 'git_http'
+	match ":project_path/*path" => 'git_http#show', 
+  		:prefix => Setting.plugin_redmine_git_hosting['httpServerSubdir'], :project_path => /([^\/]+\/)*?[^\/]+\.git/
 
 	# Handle the public keys plugin to my/account.
-	map.resources :public_keys, :controller => 'gitolite_public_keys', :path_prefix => 'my'
-	map.connect 'my/account/public_key/:public_key_id', :controller => 'my', :action => 'account', :conditions => {:method => [:get]}
-	map.connect 'users/:id/edit/public_key/:public_key_id', :controller => 'users', :action => 'edit', :conditions => {:method => [:get]}
+	resources :public_keys, :controller => 'gitolite_public_keys', :path_prefix => 'my'
+	match 'my/account/public_key/:public_key_id' => 'my#account', :via => [:get]
+	match 'users/:id/edit/public_key/:public_key_id' => 'users#edit', :via => [:get]
 
   	# Handle hooks and mirrors
-	map.connect 'githooks', :controller => 'gitolite_hooks', :action => 'stub'
-	map.connect 'githooks/post-receive', :controller => 'gitolite_hooks', :action => 'post_receive'
-	map.connect 'githooks/test', :controller => 'gitolite_hooks', :action => 'test'
-	map.with_options :controller => 'projects' do |project_mapper|
-		project_mapper.with_options :controller => 'repository_mirrors' do |project_views|
-			project_views.connect 'projects/:project_id/settings/repository/mirrors/new', :action => 'create', :conditions => {:method => [:get, :post]}
-			project_views.connect 'projects/:project_id/settings/repository/mirrors/edit/:id', :action => 'edit'
-			project_views.connect 'projects/:project_id/settings/repository/mirrors/push/:id', :action => 'push'
-			project_views.connect 'projects/:project_id/settings/repository/mirrors/update/:id', :action => 'update', :conditions => {:method => :post}
-			project_views.connect 'projects/:project_id/settings/repository/mirrors/delete/:id', :action => 'destroy', :conditions => {:method => [:get, :delete]}
-		end
-	end
+	match 'githooks' => 'gitolite_hooks#stub'
+	match 'githooks/post-receive' => 'gitolite_hooks#post_receive'
+	match 'githooks/test' => 'gitolite_hooks#test'
+	match 'projects/:project_id/settings/repository/mirrors/new' => 'repository_mirrors#create', :via => [:get, :post]
+	match 'projects/:project_id/settings/repository/mirrors/edit/:id' => 'repository_mirrors#edit'
+	match 'projects/:project_id/settings/repository/mirrors/push/:id' => 'repository_mirrors#push'
+	match 'projects/:project_id/settings/repository/mirrors/update/:id' => 'repository_mirrors#update', :via => :post
+	match 'projects/:project_id/settings/repository/mirrors/delete/:id' => 'repository_mirrors#destroy', :via => [:get, :delete]
+
 end
 
-if defined? map
-	install_redmine_git_hosting_routes(map)
-else
-	ActionController::Routing::Routes.draw do |map|
-		install_redmine_git_hosting_routes(map)
-        end
-end
