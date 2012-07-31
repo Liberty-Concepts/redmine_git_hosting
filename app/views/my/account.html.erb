@@ -37,19 +37,14 @@
 </fieldset>
 <%= submit_tag l(:button_save) %>
 </div>
-
+<% end %>
 <div class="splitcontentright">
 	<%= render :partial => 'gitolite_public_keys/view' %>
 </div>
-<% end %>
+
 
 <% content_for :sidebar do %>
 <%= render :partial => 'sidebar' %>
 <% end %>
 
-<% html_title(l(:label_my_account)) -%>
-
-<% content_for :sidebar do %>
-	<%= render :partial => 'sidebar' %>
-<% end %>
 <% html_title(l(:label_my_account)) -%>
