@@ -96,7 +96,11 @@ Rails.configuration.to_prepare do
   require 'users_controller'
   require 'git_hosting/patches/users_controller_patch'
   UsersController.send(:include, GitHosting::Patches::UsersControllerPatch)
-
+  
+  require 'users_helper'
+  require 'git_hosting/patches/users_helper_patch'
+  UsersHelper.send(:include, GitHosting::Patches::UsersHelperPatch)
+  
   require 'roles_controller'
   require 'git_hosting/patches/roles_controller_patch'
   RolesController.send(:include, GitHosting::Patches::RolesControllerPatch)
@@ -106,7 +110,7 @@ Rails.configuration.to_prepare do
   MyController.send(:include, GitHosting::Patches::MyControllerPatch)
 
   require 'git_hosting/patches/repository_cia_filters'
-  require 'git_hosting/users_helper'
+  
 end
 
 # initialize hooks
