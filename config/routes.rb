@@ -5,7 +5,9 @@ RedmineApp::Application.routes.draw do
   		:prefix => Setting.plugin_redmine_git_hosting['httpServerSubdir'], :project_path => /([^\/]+\/)*?[^\/]+\.git/
 
 	# Handle the public keys plugin to my/account.
-	resources :public_keys, :controller => 'gitolite_public_keys', :path_prefix => 'my'
+  scope 'my' do
+  	resources 'gitolite_public_keys', :as => 'public_keys'
+  end
 	match 'my/account/public_key/:public_key_id' => 'my#account', :via => [:get]
 	match 'users/:id/edit/public_key/:public_key_id' => 'users#edit', :via => [:get]
 
