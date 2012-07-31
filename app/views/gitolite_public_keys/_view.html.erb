@@ -24,7 +24,7 @@
 
 <% @new_key = @gitolite_public_key.new_record? %>
 <fieldset class="public_key_view"><legend><%= @new_key ? l(:label_public_key_new) : l(:label_public_key_edit) %></legend>
-<% labelled_form_for :public_key, @gitolite_public_key, 
+<%= labelled_form_for :public_key, @gitolite_public_key, 
     :url=>{:controller=>'gitolite_public_keys', :action=>@new_key ? 'create' : 'update', :id=>@gitolite_public_key.id, :user_id=>params[:id], :tab => params[:id]&&'keys'},
     :html => {:method=>(@new_key ? :post : :put)} do |f| %>
    	<p><%= f.text_field :title, :label => :label_identifier_can_be_arbitrary, :required => true, :style => 'width:99%;' %></p>
