@@ -36,7 +36,7 @@
 
 <!--% end %-->
 
-<% form_for :repository, @repository, :url => { :controller => 'repositories', :action => 'edit', :id => @project }, :builder => TabularFormBuilder,:lang => current_language, :remote => true do |f| %>
+<%= form_for :repository, @repository, :url => { :controller => 'repositories', :action => 'edit', :id => @project }, :builder => TabularFormBuilder,:lang => current_language, :remote => true do |f| %>
 
 	<%= error_messages_for 'repository' %>
 	<div class="splitcontentleft">

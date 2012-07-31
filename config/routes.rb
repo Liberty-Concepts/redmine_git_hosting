@@ -6,7 +6,7 @@ RedmineApp::Application.routes.draw do
 
 	# Handle the public keys plugin to my/account.
   scope 'my' do
-  	resources 'gitolite_public_keys', :as => 'public_keys'
+  	resources :public_keys, :controller => :gitolite_public_keys
   end
 	match 'my/account/public_key/:public_key_id' => 'my#account', :via => [:get]
 	match 'users/:id/edit/public_key/:public_key_id' => 'users#edit', :via => [:get]
