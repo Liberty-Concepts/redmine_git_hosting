@@ -106,6 +106,7 @@ Rails.configuration.to_prepare do
   MyController.send(:include, GitHosting::Patches::MyControllerPatch)
 
   require 'git_hosting/patches/repository_cia_filters'
+  require 'git_hosting/users_helper'
 end
 
 # initialize hooks
