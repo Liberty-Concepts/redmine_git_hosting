@@ -591,19 +591,19 @@ module GitHosting
 
 		# commit / push changes to gitolite admin repo
         	begin
-			if (!resyncing)
-                        	logger.info "Committing changes to gitolite-admin repository"
-                        	message = "Updated by Redmine"
-                        else
-                        	logger.info "Committing corrections to gitolite-admin repository"
-                        	message = "Updated by Redmine: Corrections discovered during RESYNC_ALL"
-                        end
-			shell %[env GIT_SSH=#{gitolite_ssh()} git --git-dir='#{repo_dir}/.git' --work-tree='#{repo_dir}' add keydir/*]
-			shell %[env GIT_SSH=#{gitolite_ssh()} git --git-dir='#{repo_dir}/.git' --work-tree='#{repo_dir}' add conf/gitolite.conf]
-                	shell %[env GIT_SSH=#{gitolite_ssh()} git --git-dir='#{repo_dir}/.git' --work-tree='#{repo_dir}' config user.email '#{Setting.mail_from}']
-			shell %[env GIT_SSH=#{gitolite_ssh()} git --git-dir='#{repo_dir}/.git' --work-tree='#{repo_dir}' config user.name 'Redmine']
-                	shell %[env GIT_SSH=#{gitolite_ssh()} git --git-dir='#{repo_dir}/.git' --work-tree='#{repo_dir}' commit -a -m '#{message}']
-			shell %[env GIT_SSH=#{gitolite_ssh()} git --git-dir='#{repo_dir}/.git' --work-tree='#{repo_dir}' push ]
+			            if (!resyncing)
+                  	logger.info "Committing changes to gitolite-admin repository"
+                  	message = "Updated by Redmine"
+                  else
+                  	logger.info "Committing corrections to gitolite-admin repository"
+                  	message = "Updated by Redmine: Corrections discovered during RESYNC_ALL"
+                  end
+            			shell %[env GIT_SSH=#{gitolite_ssh()} git --git-dir='#{repo_dir}/.git' --work-tree='#{repo_dir}' add keydir/*]
+            			shell %[env GIT_SSH=#{gitolite_ssh()} git --git-dir='#{repo_dir}/.git' --work-tree='#{repo_dir}' add conf/gitolite.conf]
+                  shell %[env GIT_SSH=#{gitolite_ssh()} git --git-dir='#{repo_dir}/.git' --work-tree='#{repo_dir}' config user.email '#{Setting.mail_from}']
+            			shell %[env GIT_SSH=#{gitolite_ssh()} git --git-dir='#{repo_dir}/.git' --work-tree='#{repo_dir}' config user.name 'Redmine']
+                  shell %[env GIT_SSH=#{gitolite_ssh()} git --git-dir='#{repo_dir}/.git' --work-tree='#{repo_dir}' commit -a -m '#{message}']
+            			shell %[env GIT_SSH=#{gitolite_ssh()} git --git-dir='#{repo_dir}/.git' --work-tree='#{repo_dir}' push ]
                 rescue
                 	logger.error "Problems committing changes to gitolite-admin repository!! Probably requires human intervention"
                 	raise GitHostingException, "Gitlite-admin Commit Failure"
@@ -648,6 +648,7 @@ module GitHosting
         #			
 	@@recursionCheck = false
 	def self.update_repositories(*args)
+    Rails.logger.info("self.update_repositories(#{args})")
         	flags = {}
                 args.each {|arg| flags.merge!(arg) if arg.is_a?(Hash)}
         	if flags[:resync_all]
