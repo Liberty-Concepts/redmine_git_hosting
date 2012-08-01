@@ -16,7 +16,10 @@
 	</p>
 	<p>
 		<label><%= l(:label_script_dir) %><%= "<br/><em>[ #{l(:label_cannot_change_selinux)} ]</em>" if !GitHosting.bin_dir_writeable? :reset %></label>
-		<%= text_field_tag("settings[gitScriptDir]", reldir_add_dotslash(@settings['gitScriptDir']), :size => 60) %>
+		<% stripped = (@settings['gitScriptDir'] || "").lstrip.rstrip
+		   norm = File.expand_path(stripped,"/")
+           reldir = ((stripped[0,1] != "/")?".":"") + norm + ((norm[-1,1] != "/")?"/":"")%>
+		<%= text_field_tag("settings[gitScriptDir]", reldir, :size => 60) %>
 		<br />
 	</p>
 	<p>
