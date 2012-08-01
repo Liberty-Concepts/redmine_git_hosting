@@ -14,6 +14,7 @@ class GitHostingObserver < ActiveRecord::Observer
 
 
 	def self.set_update_active(*is_active)
+    Rails.logger.info("GitHostingObserver::set_update_active")
 		if !is_active || !is_active.first
                 	@@updating_active_stack += 1
                 else
