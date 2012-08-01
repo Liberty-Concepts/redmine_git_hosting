@@ -15,6 +15,7 @@ module GitHosting
 		end
 
 		def save
+      Rails.logger.info("Whoami = #{%x[ whoami ]}")
       Rails.logger.info("Saving configuration to #{@path}\n\n#{content}\n\n")
 			File.open(@path, "w") do |f|
 				f.puts content
