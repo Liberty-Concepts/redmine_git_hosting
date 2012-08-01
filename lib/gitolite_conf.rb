@@ -97,7 +97,9 @@ module GitHosting
                 end
 
 		def changed?
+      Rails.logger.info("===========\nHere's the new content:\n\n#{content}\n\n============\n\n")
 			@original_content != content
+      
 		end
 
 		def all_repos
