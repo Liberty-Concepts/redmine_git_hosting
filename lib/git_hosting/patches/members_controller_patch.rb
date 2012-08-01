@@ -4,6 +4,7 @@ module GitHosting
 	module Patches
 		module MembersControllerPatch
                         def new_with_disable_update
+                          Rails.logger.info("new_with_disable_update")
                              	# Turn of updates during repository update
                        		GitHostingObserver.set_update_active(false);
 
