@@ -14,33 +14,32 @@ class GitHostingObserver < ActiveRecord::Observer
 
 
 	def self.set_update_active(*is_active)
-    Rails.logger.info("GitHostingObserver::set_update_active")
+    Rails.logger.info("GitHostingObserver::set_update_active(#{is_active})")
 		if !is_active || !is_active.first
-                	@@updating_active_stack += 1
-                else
-                	is_active.each do |item|
-                		case item
-                			when Symbol then @@updating_active_flags[item] = true
-                			when Hash then @@updating_active_flags.merge!(item)
-                			when Project then @@cached_project_updates |= [item]
-                                end
-              		end
+    	@@updating_active_stack += 1
+    else
+    	is_active.each do |item|
+    		case item
+    			when Symbol then @@updating_active_flags[item] = true
+    			when Hash then @@updating_active_flags.merge!(item)
+    			when Project then @@cached_project_updates |= [item]
+        end
+  	end
 
-                	# If about to transition to zero and have something to run, do it
-			if @@updating_active_stack == 1 && (@@cached_project_updates.length > 0 || !@@updating_active_flags.empty?)
-				@@cached_project_updates = @@cached_project_updates.flatten.uniq.compact
-				GitHosting::update_repositories(@@cached_project_updates, @@updating_active_flags)
-	                  	@@cached_project_updates = []
-        	          	@@updating_active_flags = {}
-                        end
+    # If about to transition to zero and have something to run, do it
+		if @@updating_active_stack == 1 && (@@cached_project_updates.length > 0 || !@@updating_active_flags.empty?)
+			@@cached_project_updates = @@cached_project_updates.flatten.uniq.compact
+			GitHosting::update_repositories(@@cached_project_updates, @@updating_active_flags)
+                  	@@cached_project_updates = []
+      	          	@@updating_active_flags = {}
+    end
 
-                  	# Wait until after running update_repositories before releasing
-			@@updating_active_stack -= 1
-                  	if @@updating_active_stack < 0
-                        	@@updating_active_stack = 0
-                        end
-		end
-        	@@updating_active = (@@updating_active_stack == 0)
+    # Wait until after running update_repositories before releasing
+		@@updating_active_stack -= 1
+  	if @@updating_active_stack < 0
+    	@@updating_active_stack = 0
+    end
+    @@updating_active = (@@updating_active_stack == 0)
 	end
         
         # Register args for updating and then do it without allowing recursive calls
