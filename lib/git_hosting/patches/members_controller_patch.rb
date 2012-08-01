@@ -23,7 +23,7 @@ module GitHosting
        		create_without_disable_update
 
        		# Reenable updates to perform a single update
-          GitHostingObserver.set_update_active(true);
+          GitHostingObserver.set_update_active(:resync_all);
        	end
         def update_with_disable_update
           Rails.logger.info("edit_with_disable_update")
@@ -34,7 +34,7 @@ module GitHosting
        		update_without_disable_update
 
        		# Reenable updates to perform a single update
-          GitHostingObserver.set_update_active(true);
+          GitHostingObserver.set_update_active(:resync_all);
        	end
         def destroy_with_disable_update
           Rails.logger.info("destroy_with_disable_update")
