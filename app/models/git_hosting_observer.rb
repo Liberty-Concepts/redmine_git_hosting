@@ -30,6 +30,7 @@ class GitHostingObserver < ActiveRecord::Observer
       # If about to transition to zero and have something to run, do it
   		if @@updating_active_stack == 1 && (@@cached_project_updates.length > 0 || !@@updating_active_flags.empty?)
   			@@cached_project_updates = @@cached_project_updates.flatten.uniq.compact
+        Rails.logger.info("GitHosting::update_repositories(#{@@cached_project_updates}, #{@@updating_active_flags})")
   			GitHosting::update_repositories(@@cached_project_updates, @@updating_active_flags)
       	@@cached_project_updates = []
       	@@updating_active_flags = {}
