@@ -905,6 +905,8 @@ module GitHosting
                           	# Delete expired files from recycle bin.
                         	GitoliteRecycle.delete_expired_files
                         end
+      
+                        Rails.logger.info("conf.changed? #{conf.changed?}")
 
 			if conf.changed?
 				conf.save
