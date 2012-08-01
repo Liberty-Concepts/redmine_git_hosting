@@ -97,7 +97,7 @@ module GitHosting
                 end
 
 		def changed?
-      Rails.logger.info("============\nchanged? #{@original_conten != content}\n===========\nHere's the new content:\n\n#{content}\n\n============\nHere's the old content:\n\n#{@original_content}\n\n============\n\n")
+      Rails.logger.info("============\nchanged? #{@original_content != content}\n===========\nHere's the new content:\n\n#{content}\n\n============\nHere's the old content:\n\n#{@original_content}\n\n============\n\n")
 			@original_content != content
       
 		end
