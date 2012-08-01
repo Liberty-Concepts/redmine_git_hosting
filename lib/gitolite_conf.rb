@@ -27,18 +27,22 @@ module GitHosting
 		end
 
 		def add_write_user repo_name, users
+      Rails.logger.info("add_write_user #{repo_name} #{users}")
 			repository(repo_name).add "RW+", users
 		end
 
 		def set_write_user repo_name, users
+      Rails.logger.info("set_write_user #{repo_name} #{users}")
 			repository(repo_name).set "RW+", users
 		end
 
 		def add_read_user repo_name, users
+      Rails.logger.info("add_read_user #{repo_name} #{users}")
 			repository(repo_name).add "R", users
 		end
 
 		def set_read_user repo_name, users
+      Rails.logger.info("set_read_user #{repo_name} #{users}")
 			repository(repo_name).set "R", users
 		end
 
