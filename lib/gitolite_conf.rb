@@ -15,6 +15,7 @@ module GitHosting
 		end
 
 		def save
+      Rails.logger.info("Saving configuration to gitolite.conf\n\n#{content}\n\n")
 			File.open(@path, "w") do |f|
 				f.puts content
 			end
