@@ -18,8 +18,10 @@ module GitHosting
       Rails.logger.info("Whoami = #{%x[ whoami ]}")
       Rails.logger.info("Saving configuration to #{@path}\n\n#{content}\n\n")
 			File.open(@path, "w") do |f|
+        Rails.logger.info("We're inside the File.open() call #{f}")
 				f.puts content
 			end
+      Rails.logger.info("Wrapping up here")
 			@original_content = content
 		end
 
