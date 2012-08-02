@@ -715,14 +715,15 @@ module GitHosting
     	  old_keynames = old_keyhash[cur_token] || []
     		cur_keynames = active_keys.map{|key| "#{key.identifier}.pub"}
     
-        Rails.logger.info("+++++++\n#{old_keynames}\n+++++++\n#{cur_keynames}\n+++++++++\n#{(old_keynames - cur_keynames)}\n++++++++++++")
-    	  (old_keynames - cur_keynames).each do |keyname|
-    	    filename = File.join(keydir,"#{keyname}")
-    	    logger.warn "Removing gitolite key: #{keyname}"
-          logger.warn "git --git-dir='#{repo_dir}/.git' --work-tree='#{repo_dir}' rm keydir/#{keyname}"
-          %x[git --git-dir='#{repo_dir}/.git' --work-tree='#{repo_dir}' rm keydir/#{keyname}]
-    			 changed = true 
- Rails.logger.info("changed = true")
+        (old_keynames - cur_keynames).each do |k|
+          k.each do |keyname|
+      	    filename = File.join(keydir,"#{keyname}")
+      	    logger.warn "Removing gitolite key: #{keyname}"
+            logger.warn "git --git-dir='#{repo_dir}/.git' --work-tree='#{repo_dir}' rm keydir/#{keyname}"
+            %x[git --git-dir='#{repo_dir}/.git' --work-tree='#{repo_dir}' rm keydir/#{keyname}]
+      			changed = true 
+            Rails.logger.info("changed = true")  
+          end
         end
 
         # Remove inactive keys (will already be deleted by above code)
@@ -748,6 +749,7 @@ module GitHosting
     	orphanString=flags[:delete] ? "" : "orphan "
     	if flags[:resync_all] || flags[:delete]
         # All keys left in old_keyhash should be for users nolonger authorized for gitolite repos
+        Rails.logger.info("Stripping Orphans")
     		old_keyhash.each_value do |keyname|
     	    filename = File.join(keydir,"#{keyname}")
           logger.warn "Removing #{orphanString}gitolite key: #{keyname}"
