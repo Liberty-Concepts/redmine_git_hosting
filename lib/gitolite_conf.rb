@@ -6,7 +6,7 @@ module GitHosting
           	DEFAULT_ADMIN_KEY_NAME = "id_rsa"
 
 		def initialize file_path
-      Rails.logger.info("Initializing")
+      # Rails.logger.info("Initializing")
 			@path = file_path
 			load
 		end
@@ -17,32 +17,32 @@ module GitHosting
 
 		def save
       
-      Rails.logger.info("Saving configuration to #{@path}\n\n#{content}\n\n")
+      # Rails.logger.info("Saving configuration to #{@path}\n\n#{content}\n\n")
 			File.open(@path, "w") do |f|
-        Rails.logger.info("We're inside the File.open() call #{f}")
+        # Rails.logger.info("We're inside the File.open() call #{f}")
 				f.puts content
 			end
-      Rails.logger.info("Wrapping up here")
+      # Rails.logger.info("Wrapping up here")
 			@original_content = content
 		end
 
 		def add_write_user repo_name, users
-      Rails.logger.info("add_write_user #{repo_name} #{users}")
+      # Rails.logger.info("add_write_user #{repo_name} #{users}")
 			repository(repo_name).add "RW+", users
 		end
 
 		def set_write_user repo_name, users
-      Rails.logger.info("set_write_user #{repo_name} #{users}")
+      # Rails.logger.info("set_write_user #{repo_name} #{users}")
 			repository(repo_name).set "RW+", users
 		end
 
 		def add_read_user repo_name, users
-      Rails.logger.info("add_read_user #{repo_name} #{users}")
+      # Rails.logger.info("add_read_user #{repo_name} #{users}")
 			repository(repo_name).add "R", users
 		end
 
 		def set_read_user repo_name, users
-      Rails.logger.info("set_read_user #{repo_name} #{users}")
+      # Rails.logger.info("set_read_user #{repo_name} #{users}")
 			repository(repo_name).set "R", users
 		end
 
@@ -77,13 +77,13 @@ module GitHosting
                 # In addition, if there are any redmine keys, delete the GIT_DAEMON_KEY as well, 
                 # since we assume this under control of redmine server.
                 def delete_redmine_keys repo_name
-                  Rails.logger.info("delete_redmine_keys(#{repo_name})")
+                  # Rails.logger.info("delete_redmine_keys(#{repo_name})")
 			            return unless @repositories[repo_name] && is_redmine_repo?(repo_name)
                 
-                  Rails.logger.info("Actually doing delete_redmine_keys(#{repo_name})")
+                  # Rails.logger.info("Actually doing delete_redmine_keys(#{repo_name})")
                 	repository(repo_name).rights.each do |perm, users|
                     users.delete_if {|key| 
-                     Rails.logger.info("users.delete_if {|#{key}| ((#{is_redmine_key? key}) || (#{is_daemon_key? key}))}")
+                     # Rails.logger.info("users.delete_if {|#{key}| ((#{is_redmine_key? key}) || (#{is_daemon_key? key}))}")
                      ((is_redmine_key? key) || (is_daemon_key? key))
                     }
                   end
@@ -102,7 +102,7 @@ module GitHosting
                 end
 
 		def changed?
-      Rails.logger.info("============\nchanged? #{@original_content != content}\n===========\nHere's the new content:\n\n#{content}\n\n============\nHere's the old content:\n\n#{@original_content}\n\n============\n\n")
+      # Rails.logger.info("============\nchanged? #{@original_content != content}\n===========\nHere's the new content:\n\n#{content}\n\n============\nHere's the old content:\n\n#{@original_content}\n\n============\n\n")
 			@original_content != content
       
 		end
