@@ -15,7 +15,7 @@ module GitHosting
 
       module InstanceMethods
         def create_with_disable_update
-           
+          Rails.logger.info("new_with_disable_update")
           # Turn of updates during repository update
        		GitHostingObserver.set_update_active(false);
 
@@ -26,7 +26,7 @@ module GitHosting
           GitHostingObserver.set_update_active(:resync_all);
        	end
         def update_with_disable_update
-           
+          Rails.logger.info("edit_with_disable_update")
              	# Turn of updates during repository update
        		GitHostingObserver.set_update_active(false);
 
@@ -37,7 +37,7 @@ module GitHosting
           GitHostingObserver.set_update_active(:resync_all);
        	end
         def destroy_with_disable_update
-           
+          Rails.logger.info("destroy_with_disable_update")
              	# Turn of updates during repository update
        		GitHostingObserver.set_update_active(false);
 

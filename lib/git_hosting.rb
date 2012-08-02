@@ -648,7 +648,7 @@ module GitHosting
         #			
 	@@recursionCheck = false
 	def self.update_repositories(*args)
-     
+    Rails.logger.info("self.update_repositories(#{args})")
         	flags = {}
                 args.each {|arg| flags.merge!(arg) if arg.is_a?(Hash)}
         	if flags[:resync_all]
