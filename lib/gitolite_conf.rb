@@ -6,6 +6,7 @@ module GitHosting
           	DEFAULT_ADMIN_KEY_NAME = "id_rsa"
 
 		def initialize file_path
+      Rails.logger.info("Initializing")
 			@path = file_path
 			load
 		end
@@ -22,7 +23,6 @@ module GitHosting
 				f.puts content
 			end
       Rails.logger.info("Wrapping up here")
-      Rails.logger.info(%x[ whoami ])
 			@original_content = content
 		end
 
