@@ -715,6 +715,7 @@ module GitHosting
     	  old_keynames = old_keyhash[cur_token] || []
     		cur_keynames = active_keys.map{|key| "#{key.identifier}.pub"}
     
+        Rails.logger.info("+++++++\n#{old_keynames}\n+++++++\n#{cur_keynames}\n+++++++++\n#{(old_keynames - cur_keynames)}\n++++++++++++")
     	  (old_keynames - cur_keynames).each do |keyname|
     	    filename = File.join(keydir,"#{keyname}")
     	    logger.warn "Removing gitolite key: #{keyname}"
