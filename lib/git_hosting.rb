@@ -750,13 +750,15 @@ module GitHosting
     	if flags[:resync_all] || flags[:delete]
         # All keys left in old_keyhash should be for users nolonger authorized for gitolite repos
         Rails.logger.info("Stripping Orphans")
-    		old_keyhash.each_value do |keyname|
-    	    filename = File.join(keydir,"#{keyname}")
-          logger.warn "Removing #{orphanString}gitolite key: #{keyname}"
-          logger.warn "git --git-dir='#{repo_dir}/.git' --work-tree='#{repo_dir}' rm keydir/#{keyname}"
-          %x[git --git-dir='#{repo_dir}/.git' --work-tree='#{repo_dir}' rm keydir/#{keyname}]
-    			 changed = true 
- Rails.logger.info("changed = true")
+    		old_keyhash.each_value do |k|
+          k.each do |keyname|
+      	    filename = File.join(keydir,"#{keyname}")
+            logger.warn "Removing #{orphanString}gitolite key: #{keyname}"
+            logger.warn "git --git-dir='#{repo_dir}/.git' --work-tree='#{repo_dir}' rm keydir/#{keyname}"
+            %x[git --git-dir='#{repo_dir}/.git' --work-tree='#{repo_dir}' rm keydir/#{keyname}]
+    			  changed = true 
+            Rails.logger.info("changed = true")
+          end
         end
   		end
 
