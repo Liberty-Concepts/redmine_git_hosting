@@ -83,7 +83,7 @@ module GitHosting
                   Rails.logger.info("Actually doing delete_redmine_keys(#{repo_name})")
                 	repository(repo_name).rights.each do |perm, users|
                     users.delete_if {|key| 
-                     Rails.logger.info("users.delete_if {|#{key}| ((#{is_redmine_key? userskey}) || (#{is_daemon_key? key}))}")
+                     Rails.logger.info("users.delete_if {|#{key}| ((#{is_redmine_key? key}) || (#{is_daemon_key? key}))}")
                      ((is_redmine_key? key) || (is_daemon_key? key))
                     }
                   end
