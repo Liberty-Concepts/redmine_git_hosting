@@ -742,6 +742,7 @@ module GitHosting
     	  end
               			
       	# In preparation for resync_all, below
+        Rails.logger.info("Preparing for resync_all:  \n!!!!!!!!!\n#{old_keyhash}\n!!!!!!\n#{cur_token}\n!!!!!!!!!")
       	old_keyhash.delete(cur_token)
       end
 
@@ -756,7 +757,7 @@ module GitHosting
             logger.warn "Removing #{orphanString}gitolite key: #{keyname}"
             logger.warn "git --git-dir='#{repo_dir}/.git' --work-tree='#{repo_dir}' rm keydir/#{keyname}"
             %x[git --git-dir='#{repo_dir}/.git' --work-tree='#{repo_dir}' rm keydir/#{keyname}]
-    			  changed = true 
+    	changed = true 
             Rails.logger.info("changed = true")
           end
         end
