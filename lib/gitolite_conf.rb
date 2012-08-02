@@ -77,11 +77,12 @@ module GitHosting
                 # In addition, if there are any redmine keys, delete the GIT_DAEMON_KEY as well, 
                 # since we assume this under control of redmine server.
                 def delete_redmine_keys repo_name
-			return unless @repositories[repo_name] && is_redmine_repo?(repo_name)
+                  Rails.logger.info("delete_redmine_keys(#{repo_name})")
+			            return unless @repositories[repo_name] && is_redmine_repo?(repo_name)
                 
                 	repository(repo_name).rights.each do |perm, users|
-                		users.delete_if {|key| ((is_redmine_key? key) || (is_daemon_key? key))}
-                        end
+                    users.delete_if {|key| ((is_redmine_key? key) || (is_daemon_key? key))}
+                  end
                 end
 		
 		def repo_has_no_keys? repo_name

@@ -29,6 +29,7 @@ module GitHosting
                   
                 # Scan through the recyclebin and delete files older than 'preserve_time' minutes
           	def self.delete_expired_files
+              logger.warn "GitoliteRecycle::delete_expired_files -- return unless #{GitHosting.file_exists?(recycle_bin)}"
                 	return unless GitHosting.file_exists?(recycle_bin)
 
                 	result = %x[#{GitHosting.git_user_runner} find '#{recycle_bin}' -type d -regex '.*\.git' -cmin +#{preserve_time} -prune -print].chomp.split("\n")
