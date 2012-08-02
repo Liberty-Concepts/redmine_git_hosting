@@ -6,7 +6,7 @@ module GitHosting
           	DEFAULT_ADMIN_KEY_NAME = "id_rsa"
 
 		def initialize file_path
-      Rails.logger.info("Initializing")
+       
 			@path = file_path
 			load
 		end
@@ -17,32 +17,32 @@ module GitHosting
 
 		def save
       
-      Rails.logger.info("Saving configuration to #{@path}\n\n#{content}\n\n")
+       
 			File.open(@path, "w") do |f|
-        Rails.logger.info("We're inside the File.open() call #{f}")
+         
 				f.puts content
 			end
-      Rails.logger.info("Wrapping up here")
+       
 			@original_content = content
 		end
 
 		def add_write_user repo_name, users
-      Rails.logger.info("add_write_user #{repo_name} #{users}")
+       
 			repository(repo_name).add "RW+", users
 		end
 
 		def set_write_user repo_name, users
-      Rails.logger.info("set_write_user #{repo_name} #{users}")
+       
 			repository(repo_name).set "RW+", users
 		end
 
 		def add_read_user repo_name, users
-      Rails.logger.info("add_read_user #{repo_name} #{users}")
+       
 			repository(repo_name).add "R", users
 		end
 
 		def set_read_user repo_name, users
-      Rails.logger.info("set_read_user #{repo_name} #{users}")
+       
 			repository(repo_name).set "R", users
 		end
 
@@ -97,7 +97,7 @@ module GitHosting
                 end
 
 		def changed?
-      Rails.logger.info("============\nchanged? #{@original_content != content}\n===========\nHere's the new content:\n\n#{content}\n\n============\nHere's the old content:\n\n#{@original_content}\n\n============\n\n")
+       
 			@original_content != content
       
 		end
