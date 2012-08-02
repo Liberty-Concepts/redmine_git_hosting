@@ -719,10 +719,10 @@ module GitHosting
           k.each do |keyname|
       	    filename = File.join(keydir,"#{keyname}")
       	    logger.warn "Removing gitolite key: #{keyname}"
-            logger.warn "git --git-dir='#{repo_dir}/.git' --work-tree='#{repo_dir}' rm keydir/#{keyname}"
+            #logger.warn "git --git-dir='#{repo_dir}/.git' --work-tree='#{repo_dir}' rm keydir/#{keyname}"
             %x[git --git-dir='#{repo_dir}/.git' --work-tree='#{repo_dir}' rm keydir/#{keyname}]
       			changed = true 
-            Rails.logger.info("changed = true")  
+            #Rails.logger.info("changed = true")  
           end
         end
 
@@ -737,12 +737,12 @@ module GitHosting
             logger.info "Adding gitolite key: #{keyname}"
     				File.open(filename, 'w') {|f| f.write(key.key.gsub(/\n/,'')) }
     				 changed = true 
- Rails.logger.info("changed = true")
+             #Rails.logger.info("changed = true")
     		  end
     	  end
               			
       	# In preparation for resync_all, below
-        Rails.logger.info("Preparing for resync_all:  \n!!!!!!!!!\n#{old_keyhash}\n!!!!!!\n#{cur_token}\n!!!!!!!!!")
+        #Rails.logger.info("Preparing for resync_all:  \n!!!!!!!!!\n#{old_keyhash}\n!!!!!!\n#{cur_token}\n!!!!!!!!!")
       	old_keyhash.delete(cur_token)
       end
 
@@ -750,15 +750,15 @@ module GitHosting
     	orphanString=flags[:delete] ? "" : "orphan "
     	if flags[:resync_all] || flags[:delete]
         # All keys left in old_keyhash should be for users nolonger authorized for gitolite repos
-        Rails.logger.info("Stripping Orphans")
+        #Rails.logger.info("Stripping Orphans")
     		old_keyhash.each_value do |k|
           k.each do |keyname|
       	    filename = File.join(keydir,"#{keyname}")
             logger.warn "Removing #{orphanString}gitolite key: #{keyname}"
-            logger.warn "git --git-dir='#{repo_dir}/.git' --work-tree='#{repo_dir}' rm keydir/#{keyname}"
+            #logger.warn "git --git-dir='#{repo_dir}/.git' --work-tree='#{repo_dir}' rm keydir/#{keyname}"
             %x[git --git-dir='#{repo_dir}/.git' --work-tree='#{repo_dir}' rm keydir/#{keyname}]
-    	changed = true 
-            Rails.logger.info("changed = true")
+    	      changed = true 
+            #Rails.logger.info("changed = true")
           end
         end
   		end
@@ -924,8 +924,8 @@ module GitHosting
 
 			if conf.changed?
 				conf.save
-				 changed = true 
- Rails.logger.info("changed = true")
+				changed = true 
+        Rails.logger.info("changed = true")
 			end
 	
 			if changed
