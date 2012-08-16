@@ -74,8 +74,10 @@ def run_query(url_str, params, with_https)
 	success
 end
 
-
-
+deploy_path = Dir.pwd + '/hooks/deploy-hook'
+if File.exist?(deploy_path)
+  puts %x[ #{deploy_path} ]
+end
 
 rgh_vars = {}
 rgh_var_names = [ "hooks.redmine_gitolite.key", "hooks.redmine_gitolite.url", "hooks.redmine_gitolite.projectid", "hooks.redmine_gitolite.debug", "hooks.redmine_gitolite.asynch"]
