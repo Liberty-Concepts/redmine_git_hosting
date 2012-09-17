@@ -41,8 +41,7 @@ class GitolitePublicKeysController < ApplicationController
       Rails.logger.info "PublicKeySave = true"
 			flash[:notice] = l(:notice_public_key_added, :title=>@gitolite_public_key[:title])
 		else
-      Rails.logger.info "PublicKeySave = false"
-      Rails.logger.info @gitolite_public_key.errors.full_messages.join("\n\n=====\n\n")
+      flash[:error] = @gitolite_public_key.errors.full_messages.join("\n")
 			@gitolite_public_key = GitolitePublicKey.new(:user => @user)
 		end
     
