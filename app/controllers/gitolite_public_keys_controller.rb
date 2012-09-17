@@ -34,15 +34,21 @@ class GitolitePublicKeysController < ApplicationController
 	end
 
 	def create
-        	GitHostingObserver.set_update_active(false)
+    Rails.logger.info "GitolitePublicKeysController -- Create {"
+    GitHostingObserver.set_update_active(false)
 		@gitolite_public_key = GitolitePublicKey.new(params[:public_key].merge(:user => @user))
 		if @gitolite_public_key.save
+      Rails.logger.info "PublicKeySave = true"
 			flash[:notice] = l(:notice_public_key_added, :title=>@gitolite_public_key[:title])
 		else
+      Rails.logger.info "PublicKeySave = false"
 			@gitolite_public_key = GitolitePublicKey.new(:user => @user)
 		end
-        	redirect_to @redirect_url
-        	GitHostingObserver.set_update_active(true)
+    
+    Rails.logger.info "} GitolitePublicKeysController -- Create"
+    GitHostingObserver.set_update_active(true)
+    redirect_to @redirect_url
+        	
 	end
 
 	protected
